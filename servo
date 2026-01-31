@@ -1,0 +1,48 @@
+#include <Servo.h>
+
+Servo pan;
+Servo tilt;
+
+int panAngle = 90;
+int tiltAngle = 90;
+
+const int FRAME_W = 640;
+const int FRAME_H = 480;
+
+float gain = 0.04;
+
+void setup() {
+  Serial.begin(115200);
+
+  pan.attach(9);
+  tilt.attach(10);
+
+  pan.write(panAngle);
+  tilt.write(tiltAngle);
+}
+
+void loop() {
+  if (!Serial.available()) return;
+
+  String line = Serial.readStringUntil('\n');
+  line.trim();
+
+  int comma = line.indexOf(',');
+  if (comma < 0) return;
+
+  int x = line.substring(0, comma).toInt();
+  int y = line.substring(comma + 1).toInt();
+
+  int errX = x - FRAME_W / 2;
+  int errY = y - FRAME_H / 2;
+
+  panAngle  -= errX * gain;
+  tiltAngle += errY * gain;
+
+  panAngle  = constrain(panAngle, 0, 180);
+  tiltAngle = constrain(tiltAngle, 0, 180);
+
+  pan.write(panAngle);
+  tilt.write(tiltAngle);
+}
+

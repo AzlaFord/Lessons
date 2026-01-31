@@ -1,18 +1,18 @@
 import telebot
 import numpy as np
 import cv2
+
 face = cv2.CascadeClassifier(
     cv2.data.haarcascades + 'haarcascade_frontalface_alt2.xml')
 
-
 bot = telebot.TeleBot("8329433948:AAF0VHCTZv2IKiV1PvJFtg6FQT5UjADbCfA")
 chat_id = 2039185977
-cam = cv2.VideoCapture(0)
-winName = "Movement Indicator"
-cv2.namedWindow(winName, cv2.WINDOW_NORMAL)
-prev_frame = cv2.cvtColor(cam.read()[1], cv2.COLOR_RGB2GRAY)
-current_frame = cv2.cvtColor(cam.read()[1], cv2.COLOR_RGB2GRAY)
-next_frame = cv2.cvtColor(cam.read()[1], cv2.COLOR_RGB2GRAY)
+
+cap = cv2.VideoCapture(0)
+
+prev = cv2.cvtColor(cap.read()[1], cv2.COLOR_BGR2GRAY)
+curret = cv2.cvtColor(cap.read()[1], cv2.COLOR_BGR2GRAY)
+next = cv2.cvtColor(cap.read()[1], cv2.COLOR_BGR2GRAY)
 
 
 def diffImg(f0, f1, f2):
@@ -25,27 +25,25 @@ def diffImg(f0, f1, f2):
 
 
 while True:
-    frame = cam.read()[1]
-    nzero, result = diffImg(prev_frame, current_frame, next_frame)
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    gray = cv2.equalizeHist(gray)
-    faces = face.detectMultiScale(gray)
-    print(faces)
-    if nzero > 160000 and not (np.sum(faces) == 0):
-        _ret, frame = cam.read()
+    frame = cap.read(0)[1]
+    zcount, result = diffImg(prev, curret, next)
+    faces = face.detectMultiScale(frame, 1.2, 5)
+
+    if zcount > 140000 and not (np.sum(faces) == 0):
+        frame = cap.read()[1]
         for x, y, w, h in faces:
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-        cv2.imshow('cam', frame)
-        cv2.imwrite('1.png', frame)
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 3)
+        cv2.imwrite("1.png", frame)
+        bot.send_photo(chat_id, open("1.png", "rb"))
+        bot.send_message(chat_id, "sa miscat ceva")
         print("moving")
-        bot.send_photo(648624553, open('1.png', 'rb'))
-        bot.send_message(648624553, "Face detected")
-        nzero = 0
-    cv2.imshow(winName, result)
-    prev_frame = current_frame
-    current_frame = next_frame
-    next_frame = cv2.cvtColor(cam.read()[1], cv2.COLOR_RGB2GRAY)
-    key = cv2.waitKey(1)
+        cv2.imshow("frame", frame)
+        zcount = 0
+    cv2.imshow("final", result)
+    prev = curret
+    curret = next
+    next = cv2.cvtColor(cap.read()[1], cv2.COLOR_BGR2GRAY)
+    key = cv2.waitKey(10)
     if key == 27:
-    cv2.destroyWindow(winName)
-break
+        cv2.destroyAllWindows()
+        break
