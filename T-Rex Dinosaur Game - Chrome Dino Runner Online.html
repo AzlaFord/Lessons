@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="Cache-control" content="public">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+	<title>T-Rex Dinosaur Game - Chrome Dino Runner Online</title>
+	<meta name="description" content="T-Rex Dinosaur - a replica of the hidden game from Chrome offline mode. Press Space to start the game online and jump your Dino, use down arrow (↓) to duck.">
+	<meta property="og:title" content="Chrome Dino Game">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chromedino.com">
+    <meta property="og:image" content="/img/chrome_dino_runner.png">
+    <meta property="og:site_name" content="Chrome_Dino">
+    <meta property="og:description" content="Chrome T-Rex dinosaur game online with scores (records)">
+	<style>
+	/* Copyright 2013 The Chromium Authors. All rights reserved. * Use of this source code is governed by a BSD-style license that can be * found in the LICENSE file. */html,body{ padding: 0; margin: 0; width: 100%; height: 100%;}.icon { -webkit-user-select: none; display: inline-block;}.icon-offline { content: -webkit-image-set( url(default_100_percent/offline/100-error-offline.png) 1x, url(default_200_percent/offline/200-error-offline.png) 2x); position: relative;}.hidden { display: none;}/* Offline page */.offline .interstitial-wrapper { color: #2b2b2b; font-size: 1em; line-height: 1.55; margin: 0 auto; max-width: 600px; padding-top: 100px; width: 100%; position: relative;}.offline .runner-container { height: 150px; max-width: 600px; overflow: hidden; position: absolute; top: 5px; width: 44px; position: relative;}.offline .runner-canvas { height: 150px; max-width: 600px; opacity: 1; overflow: hidden; position: absolute; top: 0; z-index: 2;}.offline .controller { background: rgba(247,247,247, .1); height: -webkit-calc(100% + 18px); height: -moz-calc(100% + 18px); height: calc(100% + 18px); left: 0; position: absolute; top: 0; width: 100vw; z-index: 1;}#offline-resources { display: none;}/**** Custom Beginning ***/body { font-family: Open Sans;}a { color: #000;}body.main-page { background: #f7f7f7;}body.black-page { background: #000;}body.black-page .interstitial-wrapper { color: #ddd;}body.black-page .high-scores { color: #bbb;}body.black-page .other-versions ul li a { color: #ccc;}body.mario-page { background: rgb(117, 165, 249);}body.mario-page .interstitial-wrapper { color: #fff;}body.mario-page .high-scores { color: #fff;}body.mario-page .other-versions ul li a { color: #fff;}ul { margin: 0; padding: 0; list-style: none;}.__wrapper { width: auto; max-width: 640px; margin-left: auto; margin-right: auto;}.___wrapper { width: auto; max-width: 516px; margin-left: auto; margin-right: auto; background: transparent;}.___wrapper.black h3 { color: #fff;}.___wrapper .cc .mc-nav li svg path { fill: rgba(255,255,255,.4) !important;}#mc-container.mario-theme .cc .mc-head .mc-comment-star span svg path { fill: #ffda1e !important;}#mc-container.mario-theme .cc .mc-head .mc-star-count { color: #000 !important;}#mc-container.mario-theme .cc .mc-comment-time, .mc-complaint .mc-comment-time { color: #666 !important;}#mc-container.mario-theme .cc .mc-comment-footer > a { color: #666 !important;}#mc-container.mario-theme .cc .mc-nav li svg path { fill: rgba(0,0,0,.4) !important;}#mc-container.mario-theme .cc .mc-comment-menu > a svg path { fill: rgba(255,255,255,.6) !important;}#mc-container.mario-theme .cc .mc-comment-menu > a:hover svg path { fill: #fff !important;}#mc-container.mario-theme .cc .mc-comment-vote .mc-comment-dislike,#mc-container.mario-theme .cc .mc-comment-vote .mc-comment-like { color: rgba(255,255,255,.6) !important;}#mc-container.mario-theme .cc .mc-comment-vote .mc-comment-dislike svg path,#mc-container.mario-theme .cc .mc-comment-vote .mc-comment-like svg path { fill: rgba(255,255,255,.6) !important;}#mc-container.mario-theme .cc .mc-comment-vote .mc-comment-dislike:hover { color: #f73131 !important;}#mc-container.mario-theme .cc .mc-comment-vote .mc-comment-like:hover { color: #29e548 !important;}#mc-container.mario-theme .cc .mc-comment-vote .mc-comment-dislike:hover svg path{ fill: #f73131 !important;}#mc-container.mario-theme .cc .mc-comment-vote .mc-comment-like:hover svg path{ fill: #29e548 !important;}#mc-container.mario-theme .cc .mc-comment-rating { color: #fff !important;}#main-content { margin: 0; padding: 0 20px;}#main-content h1 { margin: 0 0 10px; font-size: 20px; text-align: center; font-weight: normal;}#main-content h2 { display: none;}#main-content p { margin: 0 0 10px; font-size: 15px; line-height: 17px; text-align: center;}/*.ya-share2 { margin: 0 auto 48px; text-align: center;}*/#shareBlock.white table td { color: #fff;}.social-buttons { margin: 0 auto 48px; text-align: center; overflow: hidden;}.social-buttons ul { display: inline-block;}.social-buttons ul li { float: left; margin: 0 3px;}.social-buttons ul li img { border-radius: 4px;}.social-buttons ul li.fb img { background: #3b5998;}.social-buttons ul li.gp img { background: #dc4e41;}.social-buttons ul li.tw img { background: #00aced;}.high-scores { color: #767676; margin-bottom: 18px; display: inline-block; vertical-align: top; max-width: 290px;}.high-scores:first-child { margin-right: 50px;}@media (max-width: 520px) { .high-scores { margin: 0 auto 48px; } .high-scores:first-child { margin-right: auto; }}.high-scores .headline { margin: 0 0 14px; font-size: 13px; font-weight: bold; text-align: center;}.high-scores ul { width: 230px; margin: 0 auto; padding: 0;}.high-scores ul li { margin: 0 0 3px; font-size: 13px; overflow: hidden;}.high-scores ul li span.user { float: left; max-width: 180px;}.high-scores ul li span.result { float: right;}.offline .interstitial-wrapper { margin-bottom: 40px; padding-top: 18px;}.offline .runner-container,.offline .runner-canvas { position: relative;}.other-versions { margin-bottom: 30px; text-align: center;}.other-versions ul { display: inline-block; margin: 0;}.other-versions ul li { float: left; margin: 0 5px; text-align: center;}.other-versions ul li img { display: block;}.other-versions ul li a { font-size: 12px; font-weight: bold; text-decoration: none;}footer .copyright { color: #444; margin: 0 10px; font-size: 12px;}/**** Custom Ending ***/@media (max-width: 420px) { .suggested-left > #control-buttons, .suggested-right > #control-buttons { float: none; } .snackbar { left: 0; bottom: 0; width: 100%; border-radius: 0; }}@media (max-height: 350px) { h1 { margin: 0 0 15px; } .icon-offline { margin: 0 0 10px; } .interstitial-wrapper { margin-top: 5%; } .nav-wrapper { margin-top: 30px; }}@media (min-width: 600px) and (max-width: 736px) and (orientation: landscape) { .offline .interstitial-wrapper { margin-left: 0; margin-right: 0; }}@media (min-width: 420px) and (max-width: 736px) and (min-height: 240px) and (max-height: 420px) and (orientation:landscape) { .interstitial-wrapper { margin-bottom: 40px; }}@media (min-height: 240px) and (orientation: landscape) { .offline .interstitial-wrapper { margin-bottom: 20px; } .icon-offline { margin-bottom: 20px; }}@media (max-height: 320px) and (orientation: landscape) { .icon-offline { margin-bottom: 0; } .offline .runner-container { top: 10px; }}@media (max-width: 240px) { button { padding-left: 12px; padding-right: 12px; } .interstitial-wrapper { overflow: inherit; padding: 0 8px; }}@media (max-width: 120px) { button { width: auto; }}.vote-block { overflow: hidden; margin: 0 auto; padding-bottom: 10px; float: none; vertical-align: middle; position: relative; display: block; width: 280px;}.vote-block:after { content: ''; clear: both; display: block;}.vote-block .rating-info { position: absolute; bottom: -5px; left: 2px; font-size: 12px; color: #fff;}.vote-block span.rating-text { font-size: 13px; color: #fff; display: inline-block; float: none; top: 2px; position: relative;}.vote-block .rating { list-style: none; margin: 0 10px 0 0; padding: 0; width: 80px; height: 15px; float: none; vertical-align: middle; display: inline-block;}.vote-block .rating:hover li { background-image: url("/img/star.png");}@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) { .vote-block .rating:hover li { background-image: url("/img/star@2x.png"); background-size: 16px 45px !important; }}.vote-block .rating li { display: block; width: 16px; height: 15px; float: right; /* обтекание по правой стороне как раз необходимо для выстравания элементов в обратном порядке */ text-indent: -9999px; /* скрываем текст */ cursor: pointer;}.vote-block .rating li:hover,.vote-block .rating li:hover ~ li { background-position: 0 -15px;}.vote-block.disabled .rating li.current { display: block; z-index: 10;}.vote-block .rating li.active,.vote-block .rating li.active ~ li { background-position: 0 -30px;}.vote-block li.current { display: none;}.vote-block ol.show-current { position: relative;}.vote-block ol.show-current li { cursor: default; z-index: 2; position: relative;}.vote-block ol.show-current li.current { position: absolute; top: 0; left: 0; display: block; width: 100%; z-index: 1; background-position: 0 0; background-repeat: repeat-x; background-image: url("/img/star.png");}@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) { .vote-block ol.show-current li.current { background-image: url("/img/star@2x.png"); background-size: 16px 45px !important; }}.vote-block ol.show-current li.current span { display: block; height: 20px; width: 0; background: inherit; background-position: 0 -30px;}.div_hover { background-color: #f6dd65; }.vote-form button { padding: 8px 12px; font-size: 14px; margin: 0 3px 5px;}.iframe { border: 2px solid #2e3542; padding: 10px 15px; font-size: 13px; background: #f7f7f7; color: #2e3542;}.black .iframe { border: 2px solid #fff; background: #c8c2c2;}.text-block { text-align: left; margin: 30px auto; border: 1px solid #ddd; padding: 15px 30px; background: #fff; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,.05);}.text-block img { max-width: 100%;}.text-block ol { padding-left: 20px;}.text-block ul { padding-left: 20px; list-style: disc;}.text-block ul li { text-align: left; float: unset; margin: 0;}.alignright { float: right; margin-left: 10px; margin-bottom: 10px;}    .apexcharts-canvas { position: relative; user-select: none; /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */}/* scrollbar is not visible by default for legend, hence forcing the visibility */.apexcharts-canvas ::-webkit-scrollbar { -webkit-appearance: none; width: 6px;}.apexcharts-canvas ::-webkit-scrollbar-thumb { border-radius: 4px; background-color: rgba(0,0,0,.5); box-shadow: 0 0 1px rgba(255,255,255,.5); -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);}.apexcharts-canvas.dark { background: #343F57;}.apexcharts-inner { position: relative;}.legend-mouseover-inactive { transition: 0.15s ease all; opacity: 0.20;}.apexcharts-series-collapsed { opacity: 0;}.apexcharts-gridline, .apexcharts-text { pointer-events: none;}.apexcharts-tooltip { border-radius: 5px; box-shadow: 2px 2px 6px -4px #999; cursor: default; font-size: 14px; left: 62px; opacity: 0; pointer-events: none; position: absolute; top: 20px; overflow: hidden; white-space: nowrap; z-index: 12; transition: 0.15s ease all;}.apexcharts-tooltip.light { border: 1px solid #e3e3e3; background: rgba(255, 255, 255, 0.96);}.apexcharts-tooltip.dark { color: #fff; background: rgba(30,30,30, 0.8);}.apexcharts-tooltip * { font-family: inherit;}.apexcharts-tooltip .apexcharts-marker,.apexcharts-area-series .apexcharts-area,.apexcharts-line { pointer-events: none;}.apexcharts-tooltip.active { opacity: 1; transition: 0.15s ease all;}.apexcharts-tooltip-title { padding: 6px; font-size: 15px; margin-bottom: 4px;}.apexcharts-tooltip.light .apexcharts-tooltip-title { background: #ECEFF1; border-bottom: 1px solid #ddd;}.apexcharts-tooltip.dark .apexcharts-tooltip-title { background: rgba(0, 0, 0, 0.7); border-bottom: 1px solid #333;}.apexcharts-tooltip-text-value,.apexcharts-tooltip-text-z-value { display: inline-block; font-weight: 600; margin-left: 5px;}.apexcharts-tooltip-text-z-label:empty,.apexcharts-tooltip-text-z-value:empty { display: none;}.apexcharts-tooltip-text-value, .apexcharts-tooltip-text-z-value { font-weight: 600;}.apexcharts-tooltip-marker { width: 12px; height: 12px; position: relative; top: 0px; margin-right: 10px; border-radius: 50%;}.apexcharts-tooltip-series-group { padding: 0 10px; display: none; text-align: left; justify-content: left; align-items: center;}.apexcharts-tooltip-series-group.active .apexcharts-tooltip-marker { opacity: 1;}.apexcharts-tooltip-series-group.active, .apexcharts-tooltip-series-group:last-child { padding-bottom: 4px;}.apexcharts-tooltip-series-group-hidden { opacity: 0; height: 0; line-height: 0; padding: 0 !important;}.apexcharts-tooltip-y-group { padding: 6px 0 5px;}.apexcharts-tooltip-candlestick { padding: 4px 8px;}.apexcharts-tooltip-candlestick > div { margin: 4px 0;}.apexcharts-tooltip-candlestick span.value { font-weight: bold;}.apexcharts-tooltip-rangebar { padding: 5px 8px;}.apexcharts-tooltip-rangebar .category { font-weight: 600; color: #777;}.apexcharts-tooltip-rangebar .series-name { font-weight: bold; display: block; margin-bottom: 5px;}.apexcharts-xaxistooltip { opacity: 0; padding: 9px 10px; pointer-events: none; color: #373d3f; font-size: 13px; text-align: center; border-radius: 2px; position: absolute; z-index: 10; background: #ECEFF1; border: 1px solid #90A4AE; transition: 0.15s ease all;}.apexcharts-xaxistooltip.dark { background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(0, 0, 0, 0.5); color: #fff;}.apexcharts-xaxistooltip:after, .apexcharts-xaxistooltip:before { left: 50%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none;}.apexcharts-xaxistooltip:after { border-color: rgba(236, 239, 241, 0); border-width: 6px; margin-left: -6px;}.apexcharts-xaxistooltip:before { border-color: rgba(144, 164, 174, 0); border-width: 7px; margin-left: -7px;}.apexcharts-xaxistooltip-bottom:after, .apexcharts-xaxistooltip-bottom:before { bottom: 100%;}.apexcharts-xaxistooltip-top:after, .apexcharts-xaxistooltip-top:before { top: 100%;}.apexcharts-xaxistooltip-bottom:after { border-bottom-color: #ECEFF1;}.apexcharts-xaxistooltip-bottom:before { border-bottom-color: #90A4AE;}.apexcharts-xaxistooltip-bottom.dark:after { border-bottom-color: rgba(0, 0, 0, 0.5);}.apexcharts-xaxistooltip-bottom.dark:before { border-bottom-color: rgba(0, 0, 0, 0.5);}.apexcharts-xaxistooltip-top:after { border-top-color:#ECEFF1}.apexcharts-xaxistooltip-top:before { border-top-color: #90A4AE;}.apexcharts-xaxistooltip-top.dark:after { border-top-color:rgba(0, 0, 0, 0.5);}.apexcharts-xaxistooltip-top.dark:before { border-top-color: rgba(0, 0, 0, 0.5);}.apexcharts-xaxistooltip.active { opacity: 1; transition: 0.15s ease all;}.apexcharts-yaxistooltip { opacity: 0; padding: 4px 10px; pointer-events: none; color: #373d3f; font-size: 13px; text-align: center; border-radius: 2px; position: absolute; z-index: 10; background: #ECEFF1; border: 1px solid #90A4AE;}.apexcharts-yaxistooltip.dark { background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(0, 0, 0, 0.5); color: #fff;}.apexcharts-yaxistooltip:after, .apexcharts-yaxistooltip:before { top: 50%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none;}.apexcharts-yaxistooltip:after { border-color: rgba(236, 239, 241, 0); border-width: 6px; margin-top: -6px;}.apexcharts-yaxistooltip:before { border-color: rgba(144, 164, 174, 0); border-width: 7px; margin-top: -7px;}.apexcharts-yaxistooltip-left:after, .apexcharts-yaxistooltip-left:before { left: 100%;}.apexcharts-yaxistooltip-right:after, .apexcharts-yaxistooltip-right:before { right: 100%;}.apexcharts-yaxistooltip-left:after { border-left-color: #ECEFF1;}.apexcharts-yaxistooltip-left:before { border-left-color: #90A4AE;}.apexcharts-yaxistooltip-left.dark:after { border-left-color: rgba(0, 0, 0, 0.5);}.apexcharts-yaxistooltip-left.dark:before { border-left-color: rgba(0, 0, 0, 0.5);}.apexcharts-yaxistooltip-right:after { border-right-color: #ECEFF1;}.apexcharts-yaxistooltip-right:before { border-right-color: #90A4AE;}.apexcharts-yaxistooltip-right.dark:after { border-right-color: rgba(0, 0, 0, 0.5);}.apexcharts-yaxistooltip-right.dark:before { border-right-color: rgba(0, 0, 0, 0.5);}.apexcharts-yaxistooltip.active { opacity: 1;}.apexcharts-yaxistooltip-hidden { display: none;}.apexcharts-xcrosshairs, .apexcharts-ycrosshairs { pointer-events: none; opacity: 0; transition: 0.15s ease all;}.apexcharts-xcrosshairs.active, .apexcharts-ycrosshairs.active { opacity: 1; transition: 0.15s ease all;}.apexcharts-ycrosshairs-hidden { opacity: 0;}.apexcharts-zoom-rect { pointer-events: none;}.apexcharts-selection-rect { cursor: move;}.svg_select_points, .svg_select_points_rot { opacity: 0; visibility: hidden;}.svg_select_points_l, .svg_select_points_r { cursor: ew-resize; opacity: 1; visibility: visible; fill: #888;}.apexcharts-canvas.zoomable .hovering-zoom { cursor: crosshair}.apexcharts-canvas.zoomable .hovering-pan { cursor: move}.apexcharts-xaxis,.apexcharts-yaxis { pointer-events: none;}.apexcharts-zoom-icon, .apexcharts-zoom-in-icon,.apexcharts-zoom-out-icon,.apexcharts-reset-zoom-icon, .apexcharts-pan-icon, .apexcharts-selection-icon,.apexcharts-menu-icon, .apexcharts-toolbar-custom-icon { cursor: pointer; width: 20px; height: 20px; line-height: 24px; color: #6E8192; text-align: center;}.apexcharts-zoom-icon svg, .apexcharts-zoom-in-icon svg,.apexcharts-zoom-out-icon svg,.apexcharts-reset-zoom-icon svg,.apexcharts-menu-icon svg { fill: #6E8192;}.apexcharts-selection-icon svg { fill: #444; transform: scale(0.76)}.dark .apexcharts-zoom-icon svg, .dark .apexcharts-zoom-in-icon svg,.dark .apexcharts-zoom-out-icon svg,.dark .apexcharts-reset-zoom-icon svg, .dark .apexcharts-pan-icon svg, .dark .apexcharts-selection-icon svg,.dark .apexcharts-menu-icon svg, .dark .apexcharts-toolbar-custom-icon svg{ fill: #f3f4f5;}.apexcharts-canvas .apexcharts-zoom-icon.selected svg, .apexcharts-canvas .apexcharts-selection-icon.selected svg, .apexcharts-canvas .apexcharts-reset-zoom-icon.selected svg { fill: #008FFB;}.light .apexcharts-selection-icon:not(.selected):hover svg,.light .apexcharts-zoom-icon:not(.selected):hover svg, .light .apexcharts-zoom-in-icon:hover svg, .light .apexcharts-zoom-out-icon:hover svg, .light .apexcharts-reset-zoom-icon:hover svg, .light .apexcharts-menu-icon:hover svg { fill: #333;}.apexcharts-selection-icon, .apexcharts-menu-icon { position: relative;}.apexcharts-reset-zoom-icon { margin-left: 5px;}.apexcharts-zoom-icon, .apexcharts-reset-zoom-icon, .apexcharts-menu-icon { transform: scale(0.85);}.apexcharts-zoom-in-icon, .apexcharts-zoom-out-icon { transform: scale(0.7)}.apexcharts-zoom-out-icon { margin-right: 3px;}.apexcharts-pan-icon { transform: scale(0.62); position: relative; left: 1px; top: 0px;}.apexcharts-pan-icon svg { fill: #fff; stroke: #6E8192; stroke-width: 2;}.apexcharts-pan-icon.selected svg { stroke: #008FFB;}.apexcharts-pan-icon:not(.selected):hover svg { stroke: #333;}.apexcharts-toolbar { position: absolute; z-index: 11; top: 0px; right: 3px; max-width: 176px; text-align: right; border-radius: 3px; padding: 0px 6px 2px 6px; display: flex; justify-content: space-between; align-items: center; }.apexcharts-toolbar svg { pointer-events: none;}.apexcharts-menu { background: #fff; position: absolute; top: 100%; border: 1px solid #ddd; border-radius: 3px; padding: 3px; right: 10px; opacity: 0; min-width: 110px; transition: 0.15s ease all; pointer-events: none;}.apexcharts-menu.open { opacity: 1; pointer-events: all; transition: 0.15s ease all;}.apexcharts-menu-item { padding: 6px 7px; font-size: 12px; cursor: pointer;}.light .apexcharts-menu-item:hover { background: #eee;}.dark .apexcharts-menu { background: rgba(0, 0, 0, 0.7); color: #fff;}@media screen and (min-width: 768px) { .apexcharts-toolbar { /*opacity: 0;*/ } .apexcharts-canvas:hover .apexcharts-toolbar { opacity: 1; } }.apexcharts-datalabel.hidden { opacity: 0;}.apexcharts-pie-label,.apexcharts-datalabel, .apexcharts-datalabel-label, .apexcharts-datalabel-value { cursor: default; pointer-events: none;}.apexcharts-pie-label-delay { opacity: 0; animation-name: opaque; animation-duration: 0.3s; animation-fill-mode: forwards; animation-timing-function: ease;}.apexcharts-canvas .hidden { opacity: 0;}.apexcharts-hide .apexcharts-series-points { opacity: 0;}.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events, .apexcharts-radar-series path, .apexcharts-radar-series polygon { pointer-events: none;}/* markers */.apexcharts-marker { transition: 0.15s ease all;}@keyframes opaque { 0% { opacity: 0; } 100% { opacity: 1; }}.black-page .apexcharts-xaxis-label,.black-page .apexcharts-yaxis-label { fill: #fff !important;}	</style>
+    <link href="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/css.css" rel="stylesheet" type="text/css"><script src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/Untitled.js" async="" crossorigin="anonymous"></script><script async="" src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/google-analytics_analytics.js"></script><script id="facebook-jssdk" src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/sdk.js"></script><script src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/jquery.min.js"></script>
+	<script>
+		var user_name = '';
+			</script>
+
+    <!-- Google tag (gtag.js) -->
+<script async="" src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/google-analytics_analytics_002.js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-19XBQ8HCX1');
+</script>
+
+        
+<script>
+window.onkeydown = function(e) {
+  if (e.keyCode == 32 && e.target == document.body) {
+    e.preventDefault();
+  }
+};
+    </script>
+    
+<style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  box-shadow: 0 0 1px rgba(255,255,255,.5);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+.apexcharts-canvas.dark {
+  background: #343F57;
+}
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-gridline, .apexcharts-text {
+  pointer-events: none;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+.apexcharts-tooltip.light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+.apexcharts-tooltip.dark {
+  color: #fff;
+  background: rgba(30,30,30, 0.8);
+}
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line {
+  pointer-events: none;
+}
+
+.apexcharts-tooltip.active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.apexcharts-tooltip.light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+.apexcharts-tooltip.dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-z-label:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-value, 
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+.apexcharts-tooltip-series-group.active, .apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+.apexcharts-tooltip-candlestick {
+  padding: 4px 8px;
+}
+.apexcharts-tooltip-candlestick > div {
+  margin: 4px 0;
+}
+.apexcharts-tooltip-candlestick span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+	background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after, .apexcharts-xaxistooltip:before {
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+	border-color: rgba(236, 239, 241, 0);
+	border-width: 6px;
+	margin-left: -6px;
+}
+.apexcharts-xaxistooltip:before {
+	border-color: rgba(144, 164, 174, 0);
+	border-width: 7px;
+	margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after, .apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after, .apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+.apexcharts-xaxistooltip-bottom.dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color:#ECEFF1
+}
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+.apexcharts-xaxistooltip-top.dark:after {
+  border-top-color:rgba(0, 0, 0, 0.5);
+}
+.apexcharts-xaxistooltip-top.dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.apexcharts-xaxistooltip.active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+	background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after, .apexcharts-yaxistooltip:before {
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+.apexcharts-yaxistooltip:after {
+	border-color: rgba(236, 239, 241, 0);
+	border-width: 6px;
+	margin-top: -6px;
+}
+.apexcharts-yaxistooltip:before {
+	border-color: rgba(144, 164, 174, 0);
+	border-width: 7px;
+	margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after, .apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after, .apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+.apexcharts-yaxistooltip-left.dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+.apexcharts-yaxistooltip-left.dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+.apexcharts-yaxistooltip-right.dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+.apexcharts-yaxistooltip-right.dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.active {
+  opacity: 1;
+}
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs, .apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.active, .apexcharts-ycrosshairs.active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-zoom-rect {
+  pointer-events: none;
+}
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_points, .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+.svg_select_points_l, .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+  fill: #888;
+}
+.apexcharts-canvas.zoomable .hovering-zoom {
+  cursor: crosshair
+}
+.apexcharts-canvas.zoomable .hovering-pan {
+  cursor: move
+}
+
+.apexcharts-xaxis,
+.apexcharts-yaxis {
+  pointer-events: none;
+}
+
+.apexcharts-zoom-icon, 
+.apexcharts-zoom-in-icon,
+.apexcharts-zoom-out-icon,
+.apexcharts-reset-zoom-icon, 
+.apexcharts-pan-icon, 
+.apexcharts-selection-icon,
+.apexcharts-menu-icon, 
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+
+.apexcharts-zoom-icon svg, 
+.apexcharts-zoom-in-icon svg,
+.apexcharts-zoom-out-icon svg,
+.apexcharts-reset-zoom-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.dark .apexcharts-zoom-icon svg, 
+.dark .apexcharts-zoom-in-icon svg,
+.dark .apexcharts-zoom-out-icon svg,
+.dark .apexcharts-reset-zoom-icon svg, 
+.dark .apexcharts-pan-icon svg, 
+.dark .apexcharts-selection-icon svg,
+.dark .apexcharts-menu-icon svg, 
+.dark .apexcharts-toolbar-custom-icon svg{
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.selected svg, 
+.apexcharts-canvas .apexcharts-selection-icon.selected svg, 
+.apexcharts-canvas .apexcharts-reset-zoom-icon.selected svg {
+  fill: #008FFB;
+}
+.light .apexcharts-selection-icon:not(.selected):hover svg,
+.light .apexcharts-zoom-icon:not(.selected):hover svg, 
+.light .apexcharts-zoom-in-icon:hover svg, 
+.light .apexcharts-zoom-out-icon:hover svg, 
+.light .apexcharts-reset-zoom-icon:hover svg, 
+.light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon, .apexcharts-menu-icon {
+  position: relative;
+}
+.apexcharts-reset-zoom-icon {
+  margin-left: 5px;
+}
+.apexcharts-zoom-icon, .apexcharts-reset-zoom-icon, .apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoom-in-icon, .apexcharts-zoom-out-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoom-out-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+.apexcharts-pan-icon.selected svg {
+  stroke: #008FFB;
+}
+.apexcharts-pan-icon:not(.selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  top: 0px;
+  right: 3px;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+}
+
+.apexcharts-toolbar svg {
+  pointer-events: none;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+.dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-toolbar {
+    /*opacity: 0;*/
+  }
+
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  } 
+}
+
+.apexcharts-datalabel.hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabel, .apexcharts-datalabel-label, .apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events, .apexcharts-radar-series path, .apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}</style><style type="text/css">@keyframes resizeanim { from { opacity: 0; } to { opacity: 0; } } .resize-triggers { animation: 1ms resizeanim; visibility: hidden; opacity: 0; } .resize-triggers, .resize-triggers > div, .contract-trigger:before { content: " "; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }</style><style type="text/css" data-fbcssmodules="css:fb.css.base css:fb.css.dialog css:fb.css.iframewidget">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0px;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:lucida grande,tahoma,verdana,arial,sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}@keyframes fb_transform{0%{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+
+.fb_dialog{background:#525252b3;position:absolute;top:-10000px;z-index:10001}.fb_dialog_advanced{border-radius:8px;padding:10px}.fb_dialog_content{background:#fff;color:#373737}.fb_dialog_close_icon{background:url(https://connect.facebook.net/rsrc.php/v4/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{left:5px;right:auto;top:5px}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://connect.facebook.net/rsrc.php/v4/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://connect.facebook.net/rsrc.php/v4/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:700;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://connect.facebook.net/rsrc.php/v4/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{height:100%;left:0;margin:0;overflow:visible;position:absolute;top:-10000px;transform:none;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://connect.facebook.net/rsrc.php/v4/ya/r/3rhSv5V8j3o.gif) #fff no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{background:none;height:auto;min-height:initial;min-width:initial;width:auto}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{clear:both;color:#fff;display:block;font-size:18px;padding-top:20px}#fb-root #fb_dialog_ipad_overlay{background:#0006;inset:0;min-height:100%;position:absolute;width:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_mobile .fb_dialog_iframe{position:sticky;top:0}.fb_dialog_content .dialog_header{background:linear-gradient(from(#738aba),to(#2c4987));border-bottom:1px solid;border-color:#043b87;box-shadow:#fff 0 1px 1px -1px inset;color:#fff;font:700 14px Helvetica,sans-serif;text-overflow:ellipsis;text-shadow:rgba(0,30,84,.296875) 0px -1px 0px;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:linear-gradient(from(#4267B2),to(#2a4887));background-clip:padding-box;border:1px solid #29487d;border-radius:3px;display:inline-block;line-height:18px;margin-top:3px;max-width:85px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{background:none;border:none;color:#fff;font:700 12px Helvetica,sans-serif;margin:2px -12px;padding:2px 6px 3px;text-shadow:rgba(0,30,84,.296875) 0px -1px 0px}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:700;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://connect.facebook.net/rsrc.php/v4/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #4A4A4A;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f5f6f7;border:1px solid #4A4A4A;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://connect.facebook.net/rsrc.php/v4/y2/r/onuUJj0tCqE.png);background-position:50% 50%;background-repeat:no-repeat;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}
+</style><style>@keyframes intro { from { width:44px }to { width: 600px }}</style></head>
+
+<body id="t" class="offline main-page">
+
+	<header id="main-frame-error" class="interstitial-wrapper __wrapper">
+		<div id="main-content">
+			<h1>T-Rex Chrome Dino Game</h1>
+			<h2>Google Dinosaur Record</h2>
+			<p>T-Rex Dinosaur - a replica of the hidden game from Chrome offline 
+mode. Press Space to start the game online and jump your Dino, use down 
+arrow (↓) to duck.</p>
+		</div>
+	<div class="runner-container" style="width: 600px; height: 150px;"><canvas class="runner-canvas" width="600" height="150" style="width: 600px; height: 150px;"></canvas></div></header><div id="shareBlock" style="display:none">
+    <table style="margin:0 auto 10px"><tbody><tr>
+            <td colspan="3"><strong><span style="font-size:20px;"><span style="color:#6cf">S</span>hare Your <span style="color:#e6ca00">S</span>core</span></strong></td>
+        </tr><tr>
+            <td style="text-align:right"><a href="#" onclick="shareScore('fb')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAllBMVEUAAAAxMTEyMjIxMTEwMDAxMTExMTEwMDAwMDAxMTEyMjIxMTExMTEwMDAyMjIxMTEyMjIyMjIxMTEyMjIyMjIxMTEzMzMxMTH////29vb9/f12dnZTU1NFRUU6Ojrb29sjIyPz8/M+Pj41NTUoKCjt7e3l5eVjY2NHR0cUFBTf39/Pz8/BwcGzs7OoqKhra2srKysbGxtexureAAAAFnRSTlMA+vCqk4guIgQD381QFF1doN7OUxSfA9r/KwAAATlJREFUKM91k9d6gzAMhc1MzEzSFBm37Mzuvv/LVQxLQL+cC5D0YyTbkjCSRz91AssKnMSPpVhp4x2AFHqbJX2yMZpNQtOOZnDrEiK5W6K7icL8uTPcBROHUWMGd8oLGdH2FWXWR0PNNpd0fddKncvpexvrlx4QLj8U4ovB4ElxPIxOn7I4a119fnWmljAWPtqGF7nKX04njvgiAcpcl4i/6xoolAqH7PKt0UrnTdVRyBEBgMEXpbEyVZm/AwTCIrvN1cCrmnJbiMm5/zQ6v95/0SYcAG/s1lcOGS/Yc2noFiPmgMMbQ/3DKR3LAvOxxOEDDMOhSu/xak8uLvSmlBowXSgqIr/DXmgJQ7RoJm4lbiZuRa5ofD9vuZGztcBFSorGMQAUjcFyiEIk6yFiydhP+hHcO+lsBP8AhhY/reDaq5AAAAAASUVORK5CYII="></a></td>
+            <td><a href="#" onclick="shareScore('tw')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAtFBMVEUAAAAxMTEzMzMyMjIzMzMzMzMyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIvLy8yMjIyMjIzMzMyMjIzMzP///8xMTEvLy8oKCgsLCxEREQ6Ojo2Njbh4eGcnJz8/Pz39/fExMSpqalQUFDn5+fS0tK4uLigoKCAgIBeXl5JSUnu7u7W1tbNzc2/v7+ysrKvr6+JiYlycnJiYmJXV1dUVFQ+Pj75+fmQkJCPj494eHh1dXVpaWlPb4DRAAAAE3RSTlMAB5H76ejddkUXEsZUhAHFhYNTYotokQAAAW1JREFUKM99k9d6gzAMhTFhJRDaxpbNTIDsNHt0vv97FQ9iUvr1XBn/HFm2JOMu5Jm+1etZvukh47f6ro0BCwG23X7YhihwONRyAqTp4Bl3NBzcqdm2NieYiiPp7fpl/ODBC5SC8gchz9nhHxQUZbcYoiiCeun0a+wKGidU0PRjV5Tn1Tnlv7v1yTbwiO+LhDto/kYIyYpjTOtdGxmeNB3Ifs0oxBPCNc4TcZhnmMBxlJNxll/ZhQhtKxDbpuHLdC8zQiabbCbxXmXqG5bASa6iSrxgEltGT2B25KDRZsmwUK/G0n5o4dcrbbAlF9Fqq3GpYoNl+A2eaXOlzPAkL4YBWDWfSDr9ZFhhs3mWeF19ZYJmKi/5LMjm+HYqp9K6+9bURrIkAOtlOS+K+eKURrq4ri4oY0kcpywChZqChqodgDeChEoj2UxD3FVteUHdVtQydasO//AO/huD0cMghfUQqbxADFEDOiP41B7BH9OkO8fsAV6TAAAAAElFTkSuQmCC"></a></td>
+        </tr></tbody>
+    </table>
+
+    <div id="currentScore" style="display:none">255</div>
+    <div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div></div></div></div>
+    <script>
+        function LoadAllJs() {
+            fileref=document.createElement('script');
+            fileref.setAttribute("type","text/javascript");
+            fileref.setAttribute("src", 'https://platform.twitter.com/widgets.js');
+            document.body.appendChild(fileref);
+        }
+        // Check for browser support of event handling capability
+        if (window.addEventListener)
+            window.addEventListener("load", LoadAllJs, false);
+        else if (window.attachEvent)
+            window.attachEvent("onload", LoadAllJs);
+        else window.onload = LoadAllJs;
+        window.fbAsyncInit = function() {
+            FB.init({appId: '793583864096070', status: true, cookie: true, xfbml: true});
+            if(typeof addFbInits == 'function') {addFbInits();}
+        };
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0&appId=793583864096070&autoLogAppEvents=1";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        
+
+        function shareScore(platform) {
+            var c=document.getElementsByClassName("runner-canvas");
+            var cnvs=document.createElement('canvas');
+            var ctx = cnvs.getContext('2d');
+            var cscr=document.getElementById("currentScore");
+            cnvs.width=600;
+            cnvs.height=320;
+            ctx.drawImage(c[0], 0, 85);
+            $.ajax({
+                type: "POST",
+                url: "/game.php",
+                data: { act:"storeimg", img_data:cnvs.toDataURL()},
+                cache: false,
+                contentType: "application/x-www-form-urlencoded",
+                success: function (result) {
+                    if (platform == 'fb') {
+                        FB.ui({
+                            method: 'share',
+                            href: 'https://chromedino.com/game.php?act=sharepage&score='+cscr.textContent+'&scoreimg='+result,
+                        }, function(response){});
+                    } else if (platform == 'tw') {
+                        var mtitle='I scored '+cscr.textContent+' in T-Rex game online - ';
+                        window.open("https://twitter.com/share?url="+escape('https://chromedino.com/game.php?act=sharepage&score='+cscr.textContent+'&scoreimg='+result)+"&text="+mtitle, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;
+                    }
+                }
+            });
+        }
+    </script>
+</div>
+
+<section id="offline-resources">
+	<img id="offline-resources-1x" src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/offline-sprite-1x.png" alt="Dino Chrome Online Game Sprite 1">
+	<img id="offline-resources-2x" src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/offline-sprite-2x.png" alt="Dino Chrome Online Game Sprite 2">
+	<template id="audio-resources">
+		<audio id="offline-sound-press" src="data:audio/mpeg;base64,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"></audio>
+		<audio id="offline-sound-hit" src="data:audio/mpeg;base64,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"></audio>
+		<audio id="offline-sound-reached" src="data:audio/mpeg;base64,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"></audio>
+	</template>
+</section>
+<center><script async="" src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/googlesyndication_adsbygoogle.js"></script>
+<!-- chrome-kvadr -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4168170783196300" data-ad-slot="8072394506" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done"><iframe id="aswift_0" style="height: 1px !important; max-height: 1px !important; max-width: 1px !important; width: 1px !important;"><iframe id="google_ads_frame0"></iframe></iframe></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></center>
+	   	   
+	   
+	<div class="__wrapper" align="center">
+
+	
+		
+	
+
+		<div class="high-scores" align="center">
+		    
+			<h2 class="headline">5 highest scores of the day:</h2>
+			<ul>
+				<li><span class="user">king</span> <span class="result" id="score-1">100030</span></li><li><span class="user">D1Z4</span> <span class="result" id="score-2">5290</span></li><li><span class="user">mrkittyb</span> <span class="result" id="score-3">5056</span></li><li><span class="user">Angry</span> <span class="result" id="score-4">3791</span></li><li><span class="user">y</span> <span class="result" id="score-5">2772</span></li>			</ul>
+		</div>
+		<div class="high-scores" align="center">
+			<h2 class="headline">Top 5 of all time:</h2>
+			<ul>
+				<li><span class="user">king</span> <span class="result" id="score-7">100030</span></li><li><span class="user">Blank</span> <span class="result" id="score-8">38686</span></li><li><span class="user">borg_borg</span> <span class="result" id="score-9">38351</span></li><li><span class="user">MiKalifa</span> <span class="result" id="score-10">28602</span></li><li><span class="user">Alfredo</span> <span class="result" id="score-11">27939</span></li>			</ul>
+			
+		</div>
+	
+		</div>
+			
+    <center>	<script async="" src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/googlesyndication_adsbygoogle.js"></script>
+<!-- dino2f -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4168170783196300" data-ad-slot="7865874315" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done"><iframe id="aswift_1" style="height: 1px !important; max-height: 1px !important; max-width: 1px !important; width: 1px !important;"><iframe id="google_ads_frame1"></iframe></iframe></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></center>
+<br>	<footer class="other-versions __wrapper">
+		<ul>
+							<li><a href="https://chromedino.com/black/"><img src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/black_image.jpg" alt="Chrome Dino Game -- Night Version"> <span>Night</span></a></li>
+				<li><a href="https://chromedino.com/color/"><img src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/color_image.png" alt="Color Running Dinosaur" width="40"> <span>Color</span></a></li>
+                <li><a href="https://chromedino.com/batman/"><img src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/batman-image.jpg" width="39" alt="Batman vs Joker Game Online"> <span>Batman</span></a></li>
+                <li><a href="https://chromedino.com/joker/"><img src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/joker.png" width="40" alt="Joker vs city"> <span>Joker</span></a></li>
+						
+						
+		</ul>
+		
+			<div class="___wrapper " align="center">
+<h3>What is your best score in T-Rex game? (without cheats!)</h3>
+<div id="mc-container" style="position: relative;">
+                <div id="bar-chart" style="min-height: 365px;"><div id="apexchartsdd6d5uyu" class="apexcharts-canvas apexchartsdd6d5uyu light" style="width: 516px; height: 350px;"><svg id="SvgjsSvg1401" width="516" height="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xlink="http://www.w3.org/1999/xlink" svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><g id="SvgjsG1403" class="apexcharts-inner apexcharts-graphical" transform="translate(79.5999984741211, 30)"><defs id="SvgjsDefs1402"><linearGradient id="SvgjsLinearGradient1406" x1="0" y1="0" x2="0" y2="1"><stop id="SvgjsStop1407" stop-opacity="0.4" stop-color="rgba(216,227,240,0.4)" offset="0"></stop><stop id="SvgjsStop1408" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop><stop id="SvgjsStop1409" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop></linearGradient><clipPath id="gridRectMaskdd6d5uyu"><rect id="SvgjsRect1411" width="426.4000015258789" height="272.494" x="0" y="0" rx="0" ry="0" fill="#ffffff" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"></rect></clipPath><clipPath id="gridRectMarkerMaskdd6d5uyu"><rect id="SvgjsRect1412" width="428.4000015258789" height="274.494" x="-1" y="-1" rx="0" ry="0" fill="#ffffff" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"></rect></clipPath></defs><rect id="SvgjsRect1410" width="0" height="272.494" x="0" y="0" rx="0" ry="0" fill="url(#SvgjsLinearGradient1406)" opacity="1" stroke-width="0" stroke-dasharray="3" class="apexcharts-xcrosshairs" y2="272.494" filter="none" fill-opacity="0.9"></rect><g id="SvgjsG1452" class="apexcharts-yaxis apexcharts-xaxis-inversed" rel="0"><g id="SvgjsG1453" class="apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g" transform="translate(0, 0)"><text id="SvgjsText1454" font-family="Helvetica, Arial, sans-serif" x="-15" y="29.726618181818186" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="regular" fill="#373d3f" class="apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;">100-499</text><text id="SvgjsText1455" font-family="Helvetica, Arial, sans-serif" x="-15" y="84.22541818181818" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="regular" fill="#373d3f" class="apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;">500-1999</text><text id="SvgjsText1456" font-family="Helvetica, Arial, sans-serif" x="-15" y="138.72421818181817" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="regular" fill="#373d3f" class="apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;">2000-4999</text><text id="SvgjsText1457" font-family="Helvetica, Arial, sans-serif" x="-15" y="193.2230181818182" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="regular" fill="#373d3f" class="apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;">5000-9999</text><text id="SvgjsText1458" font-family="Helvetica, Arial, sans-serif" x="-15" y="247.7218181818182" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="regular" fill="#373d3f" class="apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;">10000+</text></g><line id="SvgjsLine1459" x1="0" y1="273.494" x2="426.4000015258789" y2="273.494" stroke="#78909c" stroke-dasharray="0" stroke-width="1"></line></g><g id="SvgjsG1442" class="apexcharts-xaxis apexcharts-yaxis-inversed"><g id="SvgjsG1443" class="apexcharts-xaxis-texts-g" transform="translate(0, -8)"><text id="SvgjsText1446" font-family="Helvetica, Arial, sans-serif" x="284.1666676839193" y="302.494" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="regular" fill="#373d3f" class="apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1447">20000</tspan><title>20000</title></text><text id="SvgjsText1448" font-family="Helvetica, Arial, sans-serif" x="141.93333384195967" y="302.494" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="regular" fill="#373d3f" class="apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1449">10000</tspan><title>10000</title></text><text id="SvgjsText1450" font-family="Helvetica, Arial, sans-serif" x="-0.2999999999999545" y="302.494" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="regular" fill="#373d3f" class="apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1451">0</tspan><title>0</title></text></g></g><g id="SvgjsG1460" class="apexcharts-grid"><g id="SvgjsG1461" class="apexcharts-gridlines-horizontal"><line id="SvgjsLine1465" x1="0" y1="0" x2="426.4000015258789" y2="0" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1466" x1="0" y1="54.4988" x2="426.4000015258789" y2="54.4988" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1467" x1="0" y1="108.9976" x2="426.4000015258789" y2="108.9976" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1468" x1="0" y1="163.4964" x2="426.4000015258789" y2="163.4964" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1469" x1="0" y1="217.9952" x2="426.4000015258789" y2="217.9952" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1470" x1="0" y1="272.494" x2="426.4000015258789" y2="272.494" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line></g><g id="SvgjsG1462" class="apexcharts-gridlines-vertical"></g><line id="SvgjsLine1463" x1="142.43333384195964" y1="273.494" x2="142.43333384195964" y2="279.494" stroke="#78909c" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1464" x1="284.8666676839193" y1="273.494" x2="284.8666676839193" y2="279.494" stroke="#78909c" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1472" x1="0" y1="272.494" x2="426.4000015258789" y2="272.494" stroke="transparent" stroke-dasharray="0"></line><line id="SvgjsLine1471" x1="0" y1="1" x2="0" y2="272.494" stroke="transparent" stroke-dasharray="0"></line></g><g id="SvgjsG1414" class="apexcharts-bar-series apexcharts-plot-series"><g id="SvgjsG1415" class="apexcharts-series" rel="1" seriesName="Votes" data:realIndex="0"><path id="SvgjsPath1417" d="M 0.1 8.17482L 0.7396000022888184 8.17482L 0.7396000022888184 46.323980000000006L 0.1 46.323980000000006L 0.1 8.17482" fill="rgba(35,35,35,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskdd6d5uyu)" pathTo="M 0.1 8.17482L 0.7396000022888184 8.17482L 0.7396000022888184 46.323980000000006L 0.1 46.323980000000006L 0.1 8.17482" pathFrom="M 0.1 8.17482L 0.1 8.17482L 0.1 46.323980000000006L 0.1 46.323980000000006L 0.1 8.17482" cy="62.67362" cx="0.7396000022888184" j="0" val="45" barHeight="38.14916" barWidth="0.6396000022888184"></path><path id="SvgjsPath1422" d="M 0.1 62.67362L 173.3463206199646 62.67362L 173.3463206199646 100.82278L 0.1 100.82278L 0.1 62.67362" fill="rgba(35,35,35,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskdd6d5uyu)" pathTo="M 0.1 62.67362L 173.3463206199646 62.67362L 173.3463206199646 100.82278L 0.1 100.82278L 0.1 62.67362" pathFrom="M 0.1 62.67362L 0.1 62.67362L 0.1 100.82278L 0.1 100.82278L 0.1 62.67362" cy="117.17242" cx="173.3463206199646" j="1" val="12189" barHeight="38.14916" barWidth="173.2463206199646"></path><path id="SvgjsPath1427" d="M 0.1 117.17242L 100.7588270268758 117.17242L 100.7588270268758 155.32158L 0.1 155.32158L 0.1 117.17242" fill="rgba(35,35,35,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskdd6d5uyu)" pathTo="M 0.1 117.17242L 100.7588270268758 117.17242L 100.7588270268758 155.32158L 0.1 155.32158L 0.1 117.17242" pathFrom="M 0.1 117.17242L 0.1 117.17242L 0.1 155.32158L 0.1 155.32158L 0.1 117.17242" cy="171.67122" cx="100.7588270268758" j="2" val="7082" barHeight="38.14916" barWidth="100.65882702687581"></path><path id="SvgjsPath1432" d="M 0.1 171.67122L 51.66597351786296 171.67122L 51.66597351786296 209.82038L 0.1 209.82038L 0.1 171.67122" fill="rgba(35,35,35,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskdd6d5uyu)" pathTo="M 0.1 171.67122L 51.66597351786296 171.67122L 51.66597351786296 209.82038L 0.1 209.82038L 0.1 171.67122" pathFrom="M 0.1 171.67122L 0.1 171.67122L 0.1 209.82038L 0.1 209.82038L 0.1 171.67122" cy="226.17002000000002" cx="51.66597351786296" j="3" val="3628" barHeight="38.14916" barWidth="51.56597351786296"></path><path id="SvgjsPath1437" d="M 0.1 226.17002000000002L 303.2561877515157 226.17002000000002L 303.2561877515157 264.31918L 0.1 264.31918L 0.1 226.17002000000002" fill="rgba(35,35,35,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskdd6d5uyu)" pathTo="M 0.1 226.17002000000002L 303.2561877515157 226.17002000000002L 303.2561877515157 264.31918L 0.1 264.31918L 0.1 226.17002000000002" pathFrom="M 0.1 226.17002000000002L 0.1 226.17002000000002L 0.1 264.31918L 0.1 264.31918L 0.1 226.17002000000002" cy="280.66882000000004" cx="303.2561877515157" j="4" val="21329" barHeight="38.14916" barWidth="303.1561877515157"></path><g id="SvgjsG1416" class="apexcharts-datalabels"><g id="SvgjsG1419" class="apexcharts-data-labels"><text id="SvgjsText1421" font-family="Helvetica, Arial, sans-serif" x="0.4198000011444092" y="32.749399999999994" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="regular" fill="#ffffff" style="font-family: Helvetica, Arial, sans-serif;" class="apexcharts-datalabel" cx="0.4198000011444092" cy="32.749399999999994">45</text></g><g id="SvgjsG1424" class="apexcharts-data-labels"><text id="SvgjsText1426" font-family="Helvetica, Arial, sans-serif" x="86.72316030998229" y="87.2482" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="regular" fill="#ffffff" style="font-family: Helvetica, Arial, sans-serif;" class="apexcharts-datalabel" cx="86.72316030998229" cy="87.2482">12189</text></g><g id="SvgjsG1429" class="apexcharts-data-labels"><text id="SvgjsText1431" font-family="Helvetica, Arial, sans-serif" x="50.4294135134379" y="141.747" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="regular" fill="#ffffff" style="font-family: Helvetica, Arial, sans-serif;" class="apexcharts-datalabel" cx="50.4294135134379" cy="141.747">7082</text></g><g id="SvgjsG1434" class="apexcharts-data-labels"><text id="SvgjsText1436" font-family="Helvetica, Arial, sans-serif" x="25.88298675893148" y="196.2458" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="regular" fill="#ffffff" style="font-family: Helvetica, Arial, sans-serif;" class="apexcharts-datalabel" cx="25.88298675893148" cy="196.2458">3628</text></g><g id="SvgjsG1439" class="apexcharts-data-labels"><text id="SvgjsText1441" font-family="Helvetica, Arial, sans-serif" x="151.67809387575787" y="250.74460000000002" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="regular" fill="#ffffff" style="font-family: Helvetica, Arial, sans-serif;" class="apexcharts-datalabel" cx="151.67809387575787" cy="250.74460000000002">21329</text></g></g></g></g><line id="SvgjsLine1473" x1="0" y1="0" x2="426.4000015258789" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine1474" x1="0" y1="0" x2="426.4000015258789" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line><g id="SvgjsG1475" class="apexcharts-yaxis-annotations"></g><g id="SvgjsG1476" class="apexcharts-xaxis-annotations"></g><g id="SvgjsG1477" class="apexcharts-point-annotations"></g></g></svg><div class="apexcharts-legend"></div><div class="apexcharts-tooltip light"><div class="apexcharts-tooltip-title" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"></div><div class="apexcharts-tooltip-series-group"><span class="apexcharts-tooltip-marker" style="background-color: rgb(35, 35, 35);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-label"></span><span class="apexcharts-tooltip-text-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div></div><div class="apexcharts-toolbar"><div class="apexcharts-menu-icon" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></div><div class="apexcharts-menu"><div class="apexcharts-menu-item exportSVG" title="Download SVG">Download SVG</div><div class="apexcharts-menu-item exportPNG" title="Download PNG">Download PNG</div></div></div></div></div>
+            <script src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/apexcharts.min.js"></script>
+            <script>
+                var $label_color_dark = '#232323',
+                    $label_color_light = '#dae1e7';
+
+                var themeColors = [$label_color_dark];
+                // Bar Chart
+                // ----------------------------------
+                var barChartOptions = {
+                    chart: {
+                        height: 350,
+                        type: 'bar',
+                    },
+                    colors: themeColors,
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true
+                    },
+                    series: [{
+                        name: "Votes",
+                        data: [45, 12189, 7082, 3628, 21329]
+                    }],
+                    xaxis: {
+                        categories: ['100-499', '500-1999', '2000-4999', '5000-9999', '10000+'],
+                        tickAmount: 1
+                    },
+                    yaxis: {
+                        opposite: false
+                    }
+                }
+                var barChart = new ApexCharts(
+                    document.querySelector("#bar-chart"),
+                    barChartOptions
+                );
+                barChart.render();
+            </script><div class="resize-triggers"><div class="expand-trigger"><div style="width: 517px; height: 366px;"></div></div><div class="contract-trigger"></div></div>
+        </div>
+
+
+
+                <!-- ?php if ($_SERVER['REQUEST_URI'] !== '/'): ? -->
+<h3>Install the Dino game on your website:</h3>
+                <div id="mc-container">
+                    <div class="iframe">
+                        &lt;iframe src="https://chromedino.com/" 
+frameborder="0" scrolling="no" width="100%" height="100%" 
+loading="lazy"&gt;&lt;/iframe&gt;<br>
+                        &lt;style type="text/css"&gt;iframe { position: 
+absolute; width: 100%; height: 100%; z-index: 999; }&lt;/style&gt;
+                    </div>
+                </div>
+                <!-- ?php endif; ? -->
+</div>
+
+		        
+                <div class="text-block">
+            <h2>Exploring Chrome Dino: A Timeless Classic</h2>
+            
+            <p>We all know how frustrating it can be to get disconnected
+ from the Internet. One minute you’re researching something, and then 
+suddenly, your connection drops. While most people get a screen that 
+says there’s no more connection, Chrome users get something more 
+exciting — an adventure with a little gray dinosaur.</p>
+
+            <h3>How It All Began</h3>
+
+            <p>Also known as the T-Rex Runner, the Chrome Dino Game was 
+created by Google Chrome’s UX design team in 2014. It was conceived by 
+Alan Bettes, Edward Jung, and Sebastian Gabriel, all Google developers, 
+who wanted to create something fun to distract users when their Internet
+ connection failed.</p>
+
+            <p>The character wasn’t just chosen by chance. The dinosaur 
+symbolized going “back to the prehistoric ages” when, you guessed it, 
+there was no Internet yet — originally named “Project Bolan” as a 
+playful nod to Marc Bolan, the lead singer of the band T. Rex.</p>
+
+            <p>Since its release, the game has garnered massive 
+popularity. What started as a small offline Easter egg has become a 
+sensation, transcending cultures and geographies.
+            </p><h3>Gameplay</h3>
+            <p>The beauty of the Chrome Dino Game is in its simplicity. 
+When you see the “No Internet” message on your screen while using Google
+ Chrome, you’ll see a small, pixelated T-Rex — and you can also play it 
+at ChromeDino.com. Pressing the space bar on your computer or tapping on
+ your mobile starts the game.</p>
+
+            <img src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/dino-start-index.png" width="600" height="169" class="alignnone size-large">
+
+            The dinosaur run automatically starts, and players need to avoid obstacles by:
+            <ul>
+                <li>Pressing the space bar or tapping the screen to jump over cacti.</li>
+                <li>Pressing the down arrow on the desktop to duck under flying pterodactyls.</li>
+            </ul>
+            <p>The longer the game lasts, the faster the pace and the harder the game becomes. At <a href="https://chromedino.com/black/">night</a>,
+ the background shifts to dark mode, making it more difficult to see 
+obstacles. The game is endless, so there’s no final level. It tests the 
+player’s reflexes until they eventually collide with something.</p>
+
+            <p><em>Initially, developers capped the maximum score at 99,999, but it was later expanded so players could keep playing indefinitely.</em></p>
+
+            <img src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/dino-game_over-index.png" width="599" height="144" class="alignnone size-large">
+
+            <p>The Chrome Dino Game is quite straightforward. It doesn’t
+ require any downloading or installation. There are no complex controls 
+necessary. Anyone can go to their computer or pick up their mobile phone
+ and start playing. It’s reminiscent of the early 8-bit games with basic
+ graphics, which people loved to play.</p>
+            <center><h2>FAQ</h2></center>
+            <ol>
+
+                <li><strong>Can you beat the Chrome Dino Game?</strong></li>
+                Technically, no. However, when players manage to get to 
+99,999 points, the score stops increasing. Some consider this to be 
+“beating” the game.
+<img src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/dino-wall.png" width="600" height="223" class="alignnone size-large">
+
+                <li><strong>Can I play the game on my phone?</strong></li>
+                Yes. The game works the same on Android and iOS Chrome 
+apps. You just need to tap the screen to start and make the dinosaur 
+jump.
+
+
+                <li><strong>Are there cheats for the Chrome Dino Game?</strong></li>
+                Yes. Opening the browser’s developer tools enables the 
+modification of the game’s speed, makes the dinosaur invincible, and 
+forces certain events. Various tutorials explain these tricks.
+
+
+                <li><strong>How hard is the game?</strong></li>
+                The longer the game goes on, the faster the speed 
+becomes. This makes it more difficult for players to continue without 
+eventually hitting an obstacle.
+
+                <li><strong>Is the Chrome Dino Game endless?</strong></li>
+
+                Yes. Theoretically, you could “finish” it in about 17 
+million years of nonstop play—a tongue-in-cheek nod to the T-Rex era.
+            </ol>
+        </div>
+                                   <br>
+		<div class="copyright">© 2016-2026 - Google Chrome Dinosaur Game Online		
+
+	</div></footer>
+	
+	<script type="text/javascript">
+		(function() {
+			var link_element = document.createElement("link"),
+				s = document.getElementsByTagName("script")[0];
+			if (window.location.protocol !== "http:" && window.location.protocol !== "https:") {
+				link_element.href = "http:";
+			}
+			link_element.href += "//fonts.googleapis.com/css?family=Open+Sans:300italic,300,400italic,400,600italic,600,700italic,700,800italic,800";
+			link_element.rel = "stylesheet";
+			link_element.type = "text/css";
+			s.parentNode.insertBefore(link_element, s);
+		})();
+	</script>
+	
+	<script src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/game.js"></script>
+		<script src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/gdpr.js"></script>
+	
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-87132083-2', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+	<script type="text/javascript">
+document.write("<img src='//counter.yadro.ru/hit?t44.2;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet' "+
+"border='0' width='1' height='1'>")
+</script><img src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/hit" alt="" title="LiveInternet" border="0" width="1" height="1" x2gcd5bzj="">
+    
+  
+
+<svg id="SvgjsSvg1078" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xlink="http://www.w3.org/1999/xlink" svgjs="http://svgjs.com/svgjs" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1079"></defs><polyline id="SvgjsPolyline1080" points="0,0"></polyline><path id="SvgjsPath1081" d="M0 0 "></path></svg><script type="text/javascript" src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/widgets.js"></script><iframe scrolling="no" frameborder="0" allowtransparency="true" src="T-Rex%20Dinosaur%20Game%20-%20Chrome%20Dino%20Runner%20Online_files/widget_iframe.html" title="Twitter settings iframe" style="display: none;"></iframe><iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: medium;" title="Twitter analytics iframe"></iframe></body></html>
